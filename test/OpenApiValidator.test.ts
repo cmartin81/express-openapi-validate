@@ -270,12 +270,27 @@ describe("OpenApiValidator", () => {
   });
 
   test("validating several path parameters", async () => {
+    const uuid1 = '11111111-1111-1111-1111-111111111111';
+    const uuid2 = '22222222-2222-2222-2222-222222222222';
+    const uuid3 = '33333333-3333-3333-3333-333333333333';
+
     const validate = getValidator("get", "/parameters/several/{a}/a/{b}/b/{c}");
-    let err = await validate({ params: { a: "abc", b: "bc" } });
+    let err = await validate({ params: { a: uuid1, b: uuid2} });
     expect(err).toBeInstanceOf(ValidationError);
     expect(err).toMatchSnapshot();
 
-    err = await validate({ params: { a: "a", b: "b", c: "c" } });
+    err = await validate({ params: { a: uuid1, b: uuid2, c: uuid3 } });
+    expect(err).toBeUndefined();
+  });
+
+
+  test("validating several path parameters POST", async () => {
+    const uuid1 = '11111111-1111-1111-1111-111111111111';
+    const uuid2 = '22222222-2222-2222-2222-222222222222';
+    const uuid3 = '33333333-3333-3333-3333-333333333333';
+
+    const validate = getValidator("post", "/parameters/several/{a}/a/{b}/b/{c}");
+    const err = await validate({ params: { a: uuid1, b: uuid2, c: uuid3, body: {bar:'barr', baz: 'bazz'} } });
     expect(err).toBeUndefined();
   });
 

@@ -280,23 +280,40 @@ paths:
         "200":
           description: Response
   /parameters/several/{a}/a/{b}/b/{c}:
+    parameters:
+    - name: a
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    - name: b
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    - name: c
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
     get:
-      parameters:
-        - name: a
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: b
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: c
-          in: path
-          required: true
-          schema:
-            type: string
+      responses:
+        "200":
+          description: Response
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                bar:
+                  type: string
+                baz:
+                  type: string
       responses:
         "200":
           description: Response

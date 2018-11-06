@@ -74,9 +74,23 @@ describe("Integration tests with real app", () => {
   });
 
   test("several path parameters are validated", async () => {
-    const res = await request(app).get("/parameters/several/aa/a/bb/b/cc");
+    const uuid1 = '11111111-1111-1111-1111-111111111111';
+    const uuid2 = '22222222-2222-2222-2222-222222222222';
+    const uuid3 = '33333333-3333-3333-3333-333333333333';
+
+    const res = await request(app).get(`/parameters/several/${uuid1}/a/${uuid2}/b/${uuid3}`);
     expect(res.status).toBe(200);
-    expect(res.body).toEqual({ a: "aa", b: "bb", c: "cc" });
+    expect(res.body).toEqual({ a: uuid1, b: uuid2, c: uuid3 });
+  });
+
+  test("several path parameters are validated -- POST", async () => {
+    const uuid1 = '11111111-1111-1111-1111-111111111111';
+    const uuid2 = '22222222-2222-2222-2222-222222222222';
+    const uuid3 = '33333333-3333-3333-3333-333333333333';
+
+    const res = await request(app).post(`/parameters/several/${uuid1}/a/${uuid2}/b/${uuid3}`).send({bar: 'foobar', baz: 'foobaz'});
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({ a: uuid1, b: uuid2, c: uuid3 });
   });
 
   test("header parameters are validated", async () => {
